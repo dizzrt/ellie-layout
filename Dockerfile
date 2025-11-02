@@ -10,7 +10,7 @@ RUN go mod download
 WORKDIR /src
 COPY . .
 
-RUN GOOS="${TARGETOS}" GOARCH="${TARGETARCH}" go build -o ./bin/app ./cmd/example/main.go
+RUN GOOS="${TARGETOS}" GOARCH="${TARGETARCH}" go build -o ./bin/app ./cmd/main.go
 
 FROM --platform=${TARGETPLATFORM} debian:stable-slim
 
@@ -26,6 +26,6 @@ WORKDIR /app
 COPY --from=builder /src/bin ./
 COPY --from=builder /src/config ./config
 
-EXPOSE 8085
+EXPOSE 8081 50051
 
 ENTRYPOINT [ "./app" ]
