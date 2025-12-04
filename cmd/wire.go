@@ -5,13 +5,23 @@ package cmd
 
 import (
 	"github.com/dizzrt/ellie"
+	"github.com/dizzrt/ellie-layout/internal/application"
 	"github.com/dizzrt/ellie-layout/internal/conf"
-	"github.com/dizzrt/ellie-layout/internal/iface"
+	"github.com/dizzrt/ellie-layout/internal/domain"
+	"github.com/dizzrt/ellie-layout/internal/handler"
+	"github.com/dizzrt/ellie-layout/internal/infra"
 	"github.com/dizzrt/ellie-layout/internal/server"
-	"github.com/dizzrt/ellie/log"
 	"github.com/google/wire"
 )
 
-func wireApp(bootstrap *conf.Bootstrap, logger log.LogWriter) (*ellie.App, func(), error) {
-	panic(wire.Build(newApp, server.ProviderSet, iface.ProviderSet))
+func wireApp() (*ellie.App, func(), error) {
+	panic(wire.Build(
+		conf.ProviderSet,
+		infra.ProviderSet,
+		domain.ProviderSet,
+		application.ProviderSet,
+		handler.ProviderSet,
+		server.ProviderSet,
+		newApp,
+	))
 }

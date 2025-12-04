@@ -3,67 +3,37 @@
 
 ## Table of Contents
 
-- [example/example.proto](#example_example-proto)
-    - [HelloRequest](#example-HelloRequest)
-    - [HelloResponse](#example-HelloResponse)
-  
-    - [ExampleService](#example-ExampleService)
+- [errdef/errdef.proto](#errdef_errdef-proto)
+    - [Errors](#-Errors)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="example_example-proto"></a>
+<a name="errdef_errdef-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## example/example.proto
+## errdef/errdef.proto
 
 
-
-<a name="example-HelloRequest"></a>
-
-### HelloRequest
+ 
 
 
+<a name="-Errors"></a>
 
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| name | [string](#string) |  |  |
-
+### Errors
 
 
-
-
-
-<a name="example-HelloResponse"></a>
-
-### HelloResponse
-
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| message | [string](#string) |  |  |
-
-
-
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| UNKNOWN | 0 |  |
+| Success | 100000 | biz - type 1 common errors |
+| InvalidParams | 100001 |  |
 
 
  
 
  
-
- 
-
-
-<a name="example-ExampleService"></a>
-
-### ExampleService
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| Hello | [HelloRequest](#example-HelloRequest) | [HelloResponse](#example-HelloResponse) |  |
 
  
 

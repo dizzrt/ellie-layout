@@ -21,8 +21,8 @@ import (
 const _ = connect.IsAtLeastVersion1_13_0
 
 const (
-	// ExampleName is the fully-qualified name of the Example service.
-	ExampleName = "example.Example"
+	// ExampleServiceName is the fully-qualified name of the ExampleService service.
+	ExampleServiceName = "example.ExampleService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,76 +33,76 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// ExampleHelloProcedure is the fully-qualified name of the Example's Hello RPC.
-	ExampleHelloProcedure = "/example.Example/Hello"
+	// ExampleServiceHelloProcedure is the fully-qualified name of the ExampleService's Hello RPC.
+	ExampleServiceHelloProcedure = "/example.ExampleService/Hello"
 )
 
-// ExampleClient is a client for the example.Example service.
-type ExampleClient interface {
+// ExampleServiceClient is a client for the example.ExampleService service.
+type ExampleServiceClient interface {
 	Hello(context.Context, *connect.Request[example.HelloRequest]) (*connect.Response[example.HelloResponse], error)
 }
 
-// NewExampleClient constructs a client for the example.Example service. By default, it uses the
-// Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
-// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
-// connect.WithGRPCWeb() options.
+// NewExampleServiceClient constructs a client for the example.ExampleService service. By default,
+// it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and
+// sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC()
+// or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewExampleClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) ExampleClient {
+func NewExampleServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) ExampleServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	exampleMethods := example.File_example_example_proto.Services().ByName("Example").Methods()
-	return &exampleClient{
+	exampleServiceMethods := example.File_example_example_proto.Services().ByName("ExampleService").Methods()
+	return &exampleServiceClient{
 		hello: connect.NewClient[example.HelloRequest, example.HelloResponse](
 			httpClient,
-			baseURL+ExampleHelloProcedure,
-			connect.WithSchema(exampleMethods.ByName("Hello")),
+			baseURL+ExampleServiceHelloProcedure,
+			connect.WithSchema(exampleServiceMethods.ByName("Hello")),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// exampleClient implements ExampleClient.
-type exampleClient struct {
+// exampleServiceClient implements ExampleServiceClient.
+type exampleServiceClient struct {
 	hello *connect.Client[example.HelloRequest, example.HelloResponse]
 }
 
-// Hello calls example.Example.Hello.
-func (c *exampleClient) Hello(ctx context.Context, req *connect.Request[example.HelloRequest]) (*connect.Response[example.HelloResponse], error) {
+// Hello calls example.ExampleService.Hello.
+func (c *exampleServiceClient) Hello(ctx context.Context, req *connect.Request[example.HelloRequest]) (*connect.Response[example.HelloResponse], error) {
 	return c.hello.CallUnary(ctx, req)
 }
 
-// ExampleHandler is an implementation of the example.Example service.
-type ExampleHandler interface {
+// ExampleServiceHandler is an implementation of the example.ExampleService service.
+type ExampleServiceHandler interface {
 	Hello(context.Context, *connect.Request[example.HelloRequest]) (*connect.Response[example.HelloResponse], error)
 }
 
-// NewExampleHandler builds an HTTP handler from the service implementation. It returns the path on
-// which to mount the handler and the handler itself.
+// NewExampleServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewExampleHandler(svc ExampleHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	exampleMethods := example.File_example_example_proto.Services().ByName("Example").Methods()
-	exampleHelloHandler := connect.NewUnaryHandler(
-		ExampleHelloProcedure,
+func NewExampleServiceHandler(svc ExampleServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	exampleServiceMethods := example.File_example_example_proto.Services().ByName("ExampleService").Methods()
+	exampleServiceHelloHandler := connect.NewUnaryHandler(
+		ExampleServiceHelloProcedure,
 		svc.Hello,
-		connect.WithSchema(exampleMethods.ByName("Hello")),
+		connect.WithSchema(exampleServiceMethods.ByName("Hello")),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/example.Example/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/example.ExampleService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case ExampleHelloProcedure:
-			exampleHelloHandler.ServeHTTP(w, r)
+		case ExampleServiceHelloProcedure:
+			exampleServiceHelloHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedExampleHandler returns CodeUnimplemented from all methods.
-type UnimplementedExampleHandler struct{}
+// UnimplementedExampleServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedExampleServiceHandler struct{}
 
-func (UnimplementedExampleHandler) Hello(context.Context, *connect.Request[example.HelloRequest]) (*connect.Response[example.HelloResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("example.Example.Hello is not implemented"))
+func (UnimplementedExampleServiceHandler) Hello(context.Context, *connect.Request[example.HelloRequest]) (*connect.Response[example.HelloResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("example.ExampleService.Hello is not implemented"))
 }

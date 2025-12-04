@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "github.com/dizzrt/ellie-layout/api/gen/errdef;errdef";
+
+import "ellie/errors/errors.proto";
+
+// Error code definition.
+//          type   domain/module   code  
+//  ------ ------ --------------- ------ 
+//   len    1      2               3     
+//   e.g.   1      00              000   
+
+enum Errors {
+    UNKNOWN = 0 [(ellie.errors.code) = 0];
+
+    // biz - type 1
+    // common errors
+    Success = 100000 [(ellie.errors.code) = 100000];
+    InvalidParams = 100001 [(ellie.errors.code) = 100001];
+}

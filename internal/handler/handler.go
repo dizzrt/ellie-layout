@@ -1,8 +1,7 @@
-package server
+package handler
 
 import "github.com/google/wire"
 
 var ProviderSet = wire.NewSet(
-	NewGRPCServer,
-	NewHTTPServer,
+	NewExampleHandler,
 )

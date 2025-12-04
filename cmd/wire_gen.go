@@ -8,19 +8,29 @@ package cmd
 
 import (
 	"github.com/dizzrt/ellie"
+	"github.com/dizzrt/ellie-layout/internal/application"
 	"github.com/dizzrt/ellie-layout/internal/conf"
-	"github.com/dizzrt/ellie-layout/internal/iface"
+	"github.com/dizzrt/ellie-layout/internal/domain/example/biz"
+	"github.com/dizzrt/ellie-layout/internal/handler"
+	"github.com/dizzrt/ellie-layout/internal/infra/foundation"
 	"github.com/dizzrt/ellie-layout/internal/server"
-	"github.com/dizzrt/ellie/log"
 )
 
 // Injectors from wire.go:
 
-func wireApp(bootstrap *conf.Bootstrap, logger log.LogWriter) (*ellie.App, func(), error) {
-	exampleHandler := iface.NewExampleHandler()
-	grpcServer := server.NewGRPCServer(bootstrap, logger, exampleHandler)
-	httpServer := server.NewHTTPServer(bootstrap, logger, exampleHandler)
-	app := newApp(logger, grpcServer, httpServer)
+func wireApp() (*ellie.App, func(), error) {
+	appConfig := conf.GetAppConfig()
+	logWriter := foundation.NewLogger(appConfig)
+	exampleBiz := biz.NewExampleBiz()
+	exampleApplication := application.NewExampleApplication(exampleBiz)
+	exampleHandler := handler.NewExampleHandler(exampleApplication)
+	grpcServer := server.NewGRPCServer(appConfig, logWriter, exampleHandler)
+	httpServer := server.NewHTTPServer(appConfig, logWriter, exampleHandler)
+	app, cleanup, err := newApp(logWriter, grpcServer, httpServer)
+	if err != nil {
+		return nil, nil, err
+	}
 	return app, func() {
+		cleanup()
 	}, nil
 }

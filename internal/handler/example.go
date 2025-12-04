@@ -1,17 +1,22 @@
-package iface
+package handler
 
 import (
 	"context"
 
 	"github.com/dizzrt/ellie-layout/api/gen/example"
+	"github.com/dizzrt/ellie-layout/internal/application"
 )
 
 type ExampleHandler struct {
-	example.UnimplementedExampleServer
+	example.UnimplementedExampleServiceServer
+
+	exampleApp application.ExampleApplication
 }
 
-func NewExampleHandler() *ExampleHandler {
-	return &ExampleHandler{}
+func NewExampleHandler(exampleApp application.ExampleApplication) *ExampleHandler {
+	return &ExampleHandler{
+		exampleApp: exampleApp,
+	}
 }
 
 func (h *ExampleHandler) Hello(ctx context.Context, req *example.HelloRequest) (*example.HelloResponse, error) {

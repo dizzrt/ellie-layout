@@ -1,17 +1,9 @@
 syntax = "proto3";
 
 package example;
-
-import "ellie/errors/errors.proto";
-import "google/api/annotations.proto";
-
 option go_package = "github.com/dizzrt/ellie-layout/api/gen/example;example";
 
-service Example {
-  rpc Hello(HelloRequest) returns (HelloResponse) {
-    option (google.api.http) = {get: "/example/hello/{name}"};
-  }
-}
+import "google/api/annotations.proto";
 
 message HelloRequest {
   string name = 1;
@@ -21,6 +13,10 @@ message HelloResponse {
   string message = 1;
 }
 
-enum Errors {
-  UNKNOWN = 0 [(ellie.errors.code) = 1000];
+service ExampleService {
+  rpc Hello(HelloRequest) returns (HelloResponse) {
+    option (google.api.http) = {
+      get: "/example/hello/{name}"
+    };
+  }
 }

@@ -3,12 +3,12 @@ package server
 import (
 	"github.com/dizzrt/ellie-layout/api/gen/example"
 	"github.com/dizzrt/ellie-layout/internal/conf"
-	"github.com/dizzrt/ellie-layout/internal/iface"
+	"github.com/dizzrt/ellie-layout/internal/handler"
 	"github.com/dizzrt/ellie/log"
 	"github.com/dizzrt/ellie/transport/grpc"
 )
 
-func NewGRPCServer(c *conf.Bootstrap, logger log.LogWriter, exampleHandler *iface.ExampleHandler) *grpc.Server {
+func NewGRPCServer(c *conf.AppConfig, logger log.LogWriter, exampleHandler *handler.ExampleHandler) *grpc.Server {
 	opts := []grpc.ServerOption{}
 
 	grpcServerConf := c.Server.GRPC
@@ -17,7 +17,7 @@ func NewGRPCServer(c *conf.Bootstrap, logger log.LogWriter, exampleHandler *ifac
 	}
 
 	srv := grpc.NewServer(opts...)
-	example.RegisterExampleServer(srv, exampleHandler)
+	example.RegisterExampleServiceServer(srv, exampleHandler)
 
 	return srv
 }

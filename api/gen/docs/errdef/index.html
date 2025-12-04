@@ -175,23 +175,15 @@
         
           
           <li>
-            <a href="#example%2fexample.proto">example/example.proto</a>
+            <a href="#errdef%2ferrdef.proto">errdef/errdef.proto</a>
             <ul>
               
-                <li>
-                  <a href="#example.HelloRequest"><span class="badge">M</span>HelloRequest</a>
-                </li>
               
                 <li>
-                  <a href="#example.HelloResponse"><span class="badge">M</span>HelloResponse</a>
+                  <a href="#.Errors"><span class="badge">E</span>Errors</a>
                 </li>
               
               
-              
-              
-                <li>
-                  <a href="#example.ExampleService"><span class="badge">S</span>ExampleService</a>
-                </li>
               
             </ul>
           </li>
@@ -203,112 +195,47 @@
     
       
       <div class="file-heading">
-        <h2 id="example/example.proto">example/example.proto</h2><a href="#title">Top</a>
+        <h2 id="errdef/errdef.proto">errdef/errdef.proto</h2><a href="#title">Top</a>
       </div>
       <p></p>
 
       
-        <h3 id="example.HelloRequest">HelloRequest</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>name</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="example.HelloResponse">HelloResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>message</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
 
       
-
-      
-
-      
-        <h3 id="example.ExampleService">ExampleService</h3>
+        <h3 id=".Errors">Errors</h3>
         <p></p>
         <table class="enum-table">
           <thead>
-            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
           </thead>
           <tbody>
             
               <tr>
-                <td>Hello</td>
-                <td><a href="#example.HelloRequest">HelloRequest</a></td>
-                <td><a href="#example.HelloResponse">HelloResponse</a></td>
+                <td>UNKNOWN</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>Success</td>
+                <td>100000</td>
+                <td><p>biz - type 1
+common errors</p></td>
+              </tr>
+            
+              <tr>
+                <td>InvalidParams</td>
+                <td>100001</td>
                 <td><p></p></td>
               </tr>
             
           </tbody>
         </table>
+      
 
-        
-          
-          
-          <h4>Methods with HTTP bindings</h4>
-          <table>
-            <thead>
-              <tr>
-                <td>Method Name</td>
-                <td>Method</td>
-                <td>Pattern</td>
-                <td>Body</td>
-              </tr>
-            </thead>
-            <tbody>
-            
-              
-              
-              <tr>
-                <td>Hello</td>
-                <td>GET</td>
-                <td>/example/hello/{name}</td>
-                <td></td>
-              </tr>
-              
-            
-            </tbody>
-          </table>
-          
-        
+      
+
+      
     
 
     <h2 id="scalar-value-types">Scalar Value Types</h2>
